@@ -10,8 +10,11 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '18.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  AZURE_APP_NAME: 'frg1-iot-devices-flow'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '18.x'
+  PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CC063E5E60E49269625AB74AC8DAE2B }}
+  SLOT: 'Production'
 
 jobs:
   build:
@@ -54,7 +57,7 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'frg1-iot-devices-flow'
-          slot-name: 'Production'
+          app-name: ${{ env.SLOT }}
+          slot-name: ${{ env.SLOT }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CC063E5E60E49269625AB74AC8DAE2B }}
